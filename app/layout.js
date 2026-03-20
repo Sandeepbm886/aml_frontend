@@ -22,22 +22,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <body className="bg-[#0a0d14] min-h-screen">
-        <ClerkProvider>
+        <ClerkProvider signInForceRedirectUrl="/transaction" signUpForceRedirectUrl="/transaction">
 
           {/* ── Top auth bar ──────────────────────────────── */}
           <header className="fixed top-0 right-0 z-50 flex items-center gap-3 px-5 py-3">
-            <Show when="signed-out">
-              <SignInButton>
-                <button className="h-8 px-4 rounded-lg text-xs font-semibold text-white/60 hover:text-white/90 border border-white/[0.08] hover:border-white/[0.18] bg-white/[0.04] hover:bg-white/[0.08] transition-all">
-                  Sign In
-                </button>
-              </SignInButton>
-              <SignUpButton>
-                <button className="h-8 px-4 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 shadow-md shadow-indigo-500/20 transition-all">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </Show>
             <Show when="signed-in">
               <UserButton
                 appearance={{
