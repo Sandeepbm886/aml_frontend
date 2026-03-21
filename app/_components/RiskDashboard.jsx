@@ -19,9 +19,9 @@ import { Skeleton } from "./Skeleton"
 
 /* ─── palette ─────────────────────────────────────── */
 const HIGH_COLOR = "#f87171"   // red-400
-const LOW_COLOR  = "#34d399"   // emerald-400
-const BAR_COLOR  = "#6366f1"   // indigo-500
-const BAR_HIGH   = "#f87171"   // red-400 for top bar
+const LOW_COLOR = "#34d399"   // emerald-400
+const BAR_COLOR = "#6366f1"   // indigo-500
+const BAR_HIGH = "#f87171"   // red-400 for top bar
 
 /* ─── custom tooltip for bar chart ───────────────── */
 const CountryTooltip = ({ active, payload, label }) => {
@@ -72,8 +72,8 @@ const RiskDashboard = ({ refreshKey = 0 }) => {
             setError(null)
             try {
                 const [cRes, dRes] = await Promise.all([
-                    axios.get("http://127.0.0.1:8000/country-risk"),
-                    axios.get("http://127.0.0.1:8000/risk-distribution"),
+                    axios.get("https://aml-backend-hyt6.onrender.com/country-risk"),
+                    axios.get("https://aml-backend-hyt6.onrender.com/risk-distribution"),
                 ])
                 const sorted = [...cRes.data].sort(
                     (a, b) => b.suspicious_transactions - a.suspicious_transactions
@@ -93,7 +93,7 @@ const RiskDashboard = ({ refreshKey = 0 }) => {
     const pieData = distribution
         ? [
             { name: "High Risk", value: distribution.high_risk, fill: HIGH_COLOR },
-            { name: "Low Risk",  value: distribution.low_risk,  fill: LOW_COLOR  },
+            { name: "Low Risk", value: distribution.low_risk, fill: LOW_COLOR },
         ]
         : []
 

@@ -33,22 +33,20 @@ const TransactionForm = ({ onSuccess }) => {
     const [apiError, setApiError] = useState(null)
 
     const inputCls = (hasError) =>
-        `w-full bg-white/[0.06] border text-white/85 placeholder:text-white/20 focus-visible:ring-1 focus-visible:ring-indigo-500/60 focus-visible:border-indigo-500/40 transition-colors ${
-            hasError
-                ? "border-red-500/40 bg-red-500/5"
-                : "border-white/[0.08] hover:border-white/[0.14]"
+        `w-full bg-white/[0.06] border text-white/85 placeholder:text-white/20 focus-visible:ring-1 focus-visible:ring-indigo-500/60 focus-visible:border-indigo-500/40 transition-colors ${hasError
+            ? "border-red-500/40 bg-red-500/5"
+            : "border-white/[0.08] hover:border-white/[0.14]"
         }`
 
     const triggerCls = (hasError) =>
-        `w-full bg-white/[0.06] border text-white/85 hover:bg-white/[0.09] focus:ring-1 focus:ring-indigo-500/60 transition-colors ${
-            hasError
-                ? "border-red-500/40"
-                : "border-white/[0.08] hover:border-white/[0.14]"
+        `w-full bg-white/[0.06] border text-white/85 hover:bg-white/[0.09] focus:ring-1 focus:ring-indigo-500/60 transition-colors ${hasError
+            ? "border-red-500/40"
+            : "border-white/[0.08] hover:border-white/[0.14]"
         }`
 
     // shared classes for every SelectContent + SelectItem
     const contentCls = "bg-[#1c2136] border border-white/[0.09] !text-white shadow-xl shadow-black/40"
-    const itemCls    = "cursor-pointer"
+    const itemCls = "cursor-pointer"
 
     const {
         register,
@@ -63,7 +61,7 @@ const TransactionForm = ({ onSuccess }) => {
         setIsLoading(true)
         const payload = { ...data, Amount: Number(data.Amount) }
         try {
-            const res = await axios.post("http://127.0.0.1:8000/predict", payload)
+            const res = await axios.post("https://aml-backend-hyt6.onrender.com/predict", payload)
             setResult(res.data)
             onSuccess?.()
         } catch (error) {
@@ -232,7 +230,7 @@ const TransactionForm = ({ onSuccess }) => {
                         </span>
                     ) : (
                         <span className="flex items-center gap-2">
-                            
+
                             Analyze Transaction
                         </span>
                     )}

@@ -11,13 +11,6 @@ export default clerkMiddleware(async (auth, req) => {
             return Response.redirect(new URL('/sign-in', req.url))
         }
 
-        const role = sessionClaims?.metadata?.role
-        console.log(role);
-        
-
-        if (role !== "admin") {
-            return new Response("Unauthorized", { status: 403 })
-        }
     }
 })
 

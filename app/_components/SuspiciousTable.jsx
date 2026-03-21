@@ -4,9 +4,9 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 export default function SuspiciousTransactions({ refreshKey = 0 }) {
-    const [rows, setRows]       = useState([])
+    const [rows, setRows] = useState([])
     const [loading, setLoading] = useState(true)
-    const [error, setError]     = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         let cancelled = false
@@ -14,7 +14,7 @@ export default function SuspiciousTransactions({ refreshKey = 0 }) {
             setLoading(true)
             setError(null)
             try {
-                const res = await axios.get("http://127.0.0.1:8000/suspicious-transactions")
+                const res = await axios.get("https://aml-backend-hyt6.onrender.com/suspicious-transactions")
                 if (!cancelled) setRows(res.data)
             } catch (err) {
                 console.error(err)
@@ -90,9 +90,8 @@ export default function SuspiciousTransactions({ refreshKey = 0 }) {
                                 {["Amount", "Sender", "Receiver", "Risk Score", "Level"].map((h, i) => (
                                     <th
                                         key={h}
-                                        className={`px-5 py-3 text-[10px] font-bold uppercase tracking-widest text-white/30 ${
-                                            i >= 3 ? "text-right" : "text-left"
-                                        }`}
+                                        className={`px-5 py-3 text-[10px] font-bold uppercase tracking-widest text-white/30 ${i >= 3 ? "text-right" : "text-left"
+                                            }`}
                                     >
                                         {h}
                                     </th>
