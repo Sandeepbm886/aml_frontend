@@ -202,41 +202,38 @@ function buildHtml({ distribution, countryRisk, suspicious, generatedAt }) {
 /* ─── PDF builder using pdfkit (pure Node.js, no browser) ── */
 async function buildPdf(html) {
   try {
-    const puppeteer = await import("puppeteer");
+    const chromium = (await import("@sparticuz/chromium")).default
+    const puppeteer = (await import("puppeteer-core")).default
 
-    const browser = await puppeteer.default.launch({
-      headless: "new",
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage"
-      ]
-    });
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+    })
 
-    const page = await browser.newPage();
+    const page = await browser.newPage()
 
     await page.setContent(html, {
-      waitUntil: "networkidle0"
-    });
+      waitUntil: "networkidle0",
+    })
 
-    const pdfBuffer = await page.pdf({
+    const pdf = await page.pdf({
       format: "A4",
       printBackground: true,
       margin: {
         top: "24px",
         right: "24px",
         bottom: "24px",
-        left: "24px"
-      }
-    });
+        left: "24px",
+      },
+    })
 
-    await browser.close();
+    await browser.close()
 
-    return pdfBuffer;
-
+    return pdf
   } catch (err) {
-    console.warn("PDF generation failed:", err.message);
-    return null;
+    console.warn("PDF generation failed:", err.message)
+    return null
   }
 }
 
