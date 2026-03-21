@@ -199,43 +199,6 @@ function buildHtml({ distribution, countryRisk, suspicious, generatedAt }) {
 </html>`;
 }
 
-/* ─── PDF builder using pdfkit (pure Node.js, no browser) ── */
-async function buildPdf(html) {
-  try {
-    const chromium = (await import("@sparticuz/chromium")).default
-    const puppeteer = (await import("puppeteer-core")).default
-
-    const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
-    })
-
-    const page = await browser.newPage()
-
-    await page.setContent(html, {
-      waitUntil: "networkidle0",
-    })
-
-    const pdf = await page.pdf({
-      format: "A4",
-      printBackground: true,
-      margin: {
-        top: "24px",
-        right: "24px",
-        bottom: "24px",
-        left: "24px",
-      },
-    })
-
-    await browser.close()
-
-    return pdf
-  } catch (err) {
-    console.warn("PDF generation failed:", err.message)
-    return null
-  }
-}
 
 /* ─── API route ───────────────────────────────────────────── */
 export async function POST(req) {
@@ -259,7 +222,13 @@ export async function POST(req) {
     });
 
     const html = buildHtml({ distribution, countryRisk, suspicious, generatedAt });
-    const pdfBuffer = await buildPdf(html);
+    const pdfRes = await fetch(`${BASE}/generate-report`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ html })
+    });
+
+    const pdfBuffer = Buffer.from(await pdfRes.arrayBuffer());
 
     const attachments = pdfBuffer
       ? [{ filename: `sentinelai-report-${Date.now()}.pdf`, content: pdfBuffer, contentType: "application/pdf" }]
