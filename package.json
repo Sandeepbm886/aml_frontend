@@ -11,6 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^7.0.5",
     "@hookform/resolvers": "^5.2.2",
+    "@sparticuz/chromium": "^143.0.4",
     "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -22,6 +23,7 @@
     "nodemailer": "^8.0.3",
     "pdfkit": "^0.18.0",
     "puppeteer": "^24.40.0",
+    "puppeteer-core": "^24.40.0",
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
